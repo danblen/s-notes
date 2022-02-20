@@ -1,4 +1,30 @@
-# CSS布局
+## flex布局
+
+采用 Flex 布局的元素，称为 `Flex 容器`（flex container），简称"容器"。它的所有子元素自动成为容器成员，称为 `Flex 项目`（flex item），简称“项目”。
+
+父元素属性
+
+| 属性名          |                            属性值                            |                             备注                             |
+| --------------- | :----------------------------------------------------------: | :----------------------------------------------------------: |
+| display         |                             flex                             |     定义了一个flex容器，它的直接子元素会接受这个flex环境     |
+| justify-content | （flex-start,flex-end,center）, （space-between,space-around） |     设置或检索弹性盒子元素在主轴（横轴）方向上的对齐方式     |
+| align-items     |     （flex-start,flex-end,center）,（baseline,stretch）      |     设置或检索弹性盒子元素在侧轴（纵轴）方向上的对齐方式     |
+| align-content   | （flex-start,flex-end,center）,（stretch,space-between,space-around） |                          必须要多行                          |
+| flex-direction  |            row,row-reverse,column,column-reverse             |                        决定主轴的方向                        |
+| flex-wrap       |                   nowrap,wrap,wrap-reverse                   |                 如果一条轴线排不下，如何换行                 |
+| flex-flow       |                [flex-direction] , [flex-wrap]                | 是`flex-direction`属性和`flex-wrap`属性的简写形式，默认值为`row nowrap` |
+
+子元素属性
+
+| 属性名      |                          属性值                          |                             备注                             |
+| ----------- | :------------------------------------------------------: | :----------------------------------------------------------: |
+| order       |                          [int]                           | 默认情况下flex order会按照书写顺序呈现，可以通过order属性改变，数值小的在前面，还可以是负数。 |
+| flex-grow   |                         [number]                         | 设置或检索弹性盒的扩展比率,根据弹性盒子元素所设置的扩展因子作为比率来分配剩余空间 |
+| flex-shrink |                         [number]                         | 设置或检索弹性盒的收缩比率,根据弹性盒子元素所设置的收缩因子作为比率来收缩空间 |
+| flex-basis  |                      [length], auto                      |                  设置或检索弹性盒伸缩基准值                  |
+| align-self  | auto,（flex-start,flex-end,center）,（baseline,stretch） | 设置或检索弹性盒子元素在侧轴（纵轴）方向上的对齐方式，可以覆盖父容器align-items的设置 |
+
+
 
 ## 清除浮动
 
@@ -42,98 +68,7 @@
 
 **推荐**使用第三种方法，不会在页面新增div，文档结构更加清晰。
 
-### display
 
-| 值           | 描述                                                        |
-| ------------ | ----------------------------------------------------------- |
-| inline       | 默认。此元素会被显示为内联元素，元素前后没有换行符。        |
-| block        | 此元素将显示为块级元素，此元素前后会带有换行符。            |
-| inline-block | 行内块元素。（CSS2.1 新增的值）                             |
-| flex         | 弹性盒子                                                    |
-| table        | 此元素会作为块级表格来显示（类似table），表格前后带有换行符 |
-| list-item    | 此元素会作为列表显示。                                      |
-| grid         | 栅格                                                        |
-| none         | 此元素不会被显示（隐藏）。                                  |
-
-### position
-
-| 值       | 描述                                                         |
-| -------- | ------------------------------------------------------------ |
-| relative | 生成相对定位的元素，相对于其正常位置进行定位，不脱离文档流。因此，"left:20" 会向元素的 LEFT 位置添加 20 像素。 |
-| absolute | 生成绝对定位的元素，相对于 static 定位以外的第一个父元素进行定位。元素的位置通过 "left", "top", "right" 以及 "bottom" 属性进行规定。 |
-| fixed    | 生成固定定位的元素，相对于浏览器窗口进行定位。（老IE不支持）元素的位置通过 "left", "top", "right" 以及 "bottom" 属性进行规定。 |
-| sticky   | 主要用在对 scroll 事件的监听上                               |
-| static   | 默认值。没有定位，元素出现在正常的文档流中（忽略 top, bottom, left, right 或者 z-index 声明）。 |
-| inherit  | 从父元素继承                                                 |
-
-粘性定位可以被认为是相对定位和固定定位的混合。元素在跨越特定阈值前为相对定位，之后为固定定位。例如：
-
-```
-#one { position: sticky; top: 10px; }
-```
-
-在 viewport 视口滚动到元素 top 距离小于 10px 之前，元素为相对定位。之后，元素将固定在与顶部距离 10px 的位置，直到 viewport 视口回滚到阈值以下。  
-
-### 例题
-
-``` ht
-<div id=”box” style=”top:10px;margin:20px 10px;”> </div>
-```
-
-**position: static**，元素处于正常的文档流中，会忽略left、top、right、bottom和z-index属性，只有margin:20px 10px好使，margin-top为20px,所以上边距为20px
-**position: relative** ; 元素设置相对于原本位置的定位,margin-top的20px加上top的10ox为30px
-**position: absolute** 同上，只不过这个定位是脱离文档流的
-**position: sticky** 元素未滚动，top值不生效，margin生效，滚动起来margin失效，top值生效 
-
-## 绝对定位和相对定位
-
-**子绝父相**
-
-绝对定位一定是压住其他元素，相对定位占有位置
-
-**position：relative  相对定位**
-
-   1）不影响元素本身的特性；
-   2）不使元素脱离文档流（元素移动之后原始位置会被保留）；
-   3）如果没有定位偏移量，对元素本身没有任何影响；
-   4）提升层级。
-
-**position：absolute  绝对定位**
-
-   1）使元素完全脱离文档流；
-   2）使内嵌支持宽高；
-   3）块属性标签内容撑开宽度；
-
-   4）如果有定位父级相对于定位父级发生偏移，没有定位父级相对于document发生偏移；
-
-   5）相对定位一般都是配合绝对定位元素使用；
-   6）提升层级
-
-## flex布局
-
-采用 Flex 布局的元素，称为 `Flex 容器`（flex container），简称"容器"。它的所有子元素自动成为容器成员，称为 `Flex 项目`（flex item），简称“项目”。
-
-父元素属性
-
-| 属性名          |                            属性值                            |                             备注                             |
-| --------------- | :----------------------------------------------------------: | :----------------------------------------------------------: |
-| display         |                             flex                             |     定义了一个flex容器，它的直接子元素会接受这个flex环境     |
-| justify-content | （flex-start,flex-end,center）, （space-between,space-around） |     设置或检索弹性盒子元素在主轴（横轴）方向上的对齐方式     |
-| align-items     |     （flex-start,flex-end,center）,（baseline,stretch）      |     设置或检索弹性盒子元素在侧轴（纵轴）方向上的对齐方式     |
-| align-content   | （flex-start,flex-end,center）,（stretch,space-between,space-around） |                          必须要多行                          |
-| flex-direction  |            row,row-reverse,column,column-reverse             |                        决定主轴的方向                        |
-| flex-wrap       |                   nowrap,wrap,wrap-reverse                   |                 如果一条轴线排不下，如何换行                 |
-| flex-flow       |                [flex-direction] , [flex-wrap]                | 是`flex-direction`属性和`flex-wrap`属性的简写形式，默认值为`row nowrap` |
-
-子元素属性
-
-| 属性名      |                          属性值                          |                             备注                             |
-| ----------- | :------------------------------------------------------: | :----------------------------------------------------------: |
-| order       |                          [int]                           | 默认情况下flex order会按照书写顺序呈现，可以通过order属性改变，数值小的在前面，还可以是负数。 |
-| flex-grow   |                         [number]                         | 设置或检索弹性盒的扩展比率,根据弹性盒子元素所设置的扩展因子作为比率来分配剩余空间 |
-| flex-shrink |                         [number]                         | 设置或检索弹性盒的收缩比率,根据弹性盒子元素所设置的收缩因子作为比率来收缩空间 |
-| flex-basis  |                      [length], auto                      |                  设置或检索弹性盒伸缩基准值                  |
-| align-self  | auto,（flex-start,flex-end,center）,（baseline,stretch） | 设置或检索弹性盒子元素在侧轴（纵轴）方向上的对齐方式，可以覆盖父容器align-items的设置 |
 
 ## 让元素消失
 
@@ -195,14 +130,6 @@ div{
     border-image: url(border.png) 2 0 stretch;
 } 
 ```
-
-## 流式布局
-
-
-
-## 响应式
-
-
 
 ## 两边固定中间自适应的三栏布局
 
